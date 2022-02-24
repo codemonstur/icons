@@ -1,6 +1,6 @@
 # Intellij Icons
 
-This repo contains all the icons from the intellij IDEA.
+This repo contains all the icons from intellij IDEA.
 The project imports this dependency:
 
     <dependency>
@@ -10,7 +10,7 @@ The project imports this dependency:
     </dependency>
 
 But it rearranges the icons into different resource directories.
-All icons are under a /icons/ dir.
+All icons are under an /icons/ dir.
 Within that directory the icons are organized according to their size and lighting setting.
 
     {width}x{height}-{lighting}
