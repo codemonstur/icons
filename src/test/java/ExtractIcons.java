@@ -1,12 +1,18 @@
 import model.IconBucket;
 import model.ImageType;
+import model.MavenMetadata;
+import xmlparser.XmlParser;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.nio.file.*;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -21,7 +27,8 @@ import static util.Logging.log;
 public enum ExtractIcons {;
 
     private static final String
-        URL_FORMAT = "https://www.jetbrains.com/intellij-repository/releases/%s/%s/%s/%s-%s.jar";
+        URL_FORMAT_JAR = "https://www.jetbrains.com/intellij-repository/releases/%s/%s/%s/%s-%s.jar",
+        URL_FORMAT_META = "https://www.jetbrains.com/intellij-repository/releases/%s/%s/maven-metadata.xml";
     private static final String
         GROUP_ID = "com/jetbrains/intellij/platform",
         ARTIFACT_ID = "icons",
@@ -29,13 +36,16 @@ public enum ExtractIcons {;
 
 
     public static void main(final String... args) throws IOException, URISyntaxException, InterruptedException {
+        log("Checking latest version");
+        islatestVersion(GROUP_ID, ARTIFACT_ID, VERSION);
+
         log("Deleting all downloaded files in 'target' and 'resources'");
         clearEverything();
 
         log("Making all necessary directories");
         makeDirectories();
 
-        final URI url = new URI(String.format(URL_FORMAT, GROUP_ID, ARTIFACT_ID, VERSION, ARTIFACT_ID, VERSION));
+        final URI url = new URI(String.format(URL_FORMAT_JAR, GROUP_ID, ARTIFACT_ID, VERSION, ARTIFACT_ID, VERSION));
         final Path file = Paths.get("target" + File.separator + ARTIFACT_ID + "-" + VERSION + ".jar");
 
         log("Downloading " + url);
@@ -44,6 +54,17 @@ public enum ExtractIcons {;
 
         log("Opening archive " + file + " and extracting icons");
         extractImages(file);
+    }
+
+    private static void islatestVersion(final String groupId, final String artifactId, final String version)
+            throws URISyntaxException, IOException, InterruptedException {
+        final String metaData = callHttp(new URI(String.format(URL_FORMAT_META, groupId, artifactId)));
+        final var mavenMetadata = new XmlParser().fromXml(metaData, MavenMetadata.class);
+        if (!version.equals(mavenMetadata.versioning.latest)) {
+            log("Version " + VERSION + " of dependency " + GROUP_ID + "/" + ARTIFACT_ID + " is not the latest");
+            log("Latest version is: " + mavenMetadata.versioning.latest);
+            throw new IllegalArgumentException();
+        }
     }
 
     private static void clearEverything() {

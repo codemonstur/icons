@@ -12,11 +12,17 @@ import java.util.zip.ZipInputStream;
 
 import static java.net.http.HttpClient.Redirect.ALWAYS;
 import static java.net.http.HttpResponse.BodyHandlers.ofInputStream;
+import static java.net.http.HttpResponse.BodyHandlers.ofString;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
 public enum IO {;
 
     private static final HttpClient httpClient = HttpClient.newBuilder().followRedirects(ALWAYS).build();
+
+    public static String callHttp(final URI url) throws IOException, InterruptedException {
+        final var request = HttpRequest.newBuilder(url).build();
+        return httpClient.send(request, ofString()).body();
+    }
 
     public static Path downloadFile(final URI url, final Path destinationFile) throws IOException, InterruptedException {
         final var request = HttpRequest.newBuilder(url).build();
@@ -39,4 +45,5 @@ public enum IO {;
         for (final File file : allContents) deleteDirectory(file);
         return directoryToBeDeleted.delete();
     }
+
 }
