@@ -68,24 +68,24 @@ public enum ExtractIcons {;
     }
 
     private static void clearEverything() {
-        deleteDirectory(new File("target/"));
-        deleteDirectory(new File("src/main/resources/icons/"));
+        deleteDirectory(new File("icons/target/"));
+        deleteDirectory(new File("icons/src/main/resources/icons/"));
     }
 
     private static void makeDirectories() {
-        new File("target/").mkdirs();
-        new File("src/main/resources/icons").mkdirs();
+        new File("icons/target/").mkdirs();
+        new File("icons/src/main/resources/icons").mkdirs();
 
-        new File("src/main/resources/icons/16x16-light").mkdirs();
-        new File("src/main/resources/icons/16x16-dark").mkdirs();
-        new File("src/main/resources/icons/32x32-light").mkdirs();
-        new File("src/main/resources/icons/32x32-dark").mkdirs();
+        new File("icons/src/main/resources/icons/16x16-light").mkdirs();
+        new File("icons/src/main/resources/icons/16x16-dark").mkdirs();
+        new File("icons/src/main/resources/icons/32x32-light").mkdirs();
+        new File("icons/src/main/resources/icons/32x32-dark").mkdirs();
 
-        new File("src/main/resources/icons/svg-light").mkdirs();
-        new File("src/main/resources/icons/svg-dark").mkdirs();
+        new File("icons/src/main/resources/icons/svg-light").mkdirs();
+        new File("icons/src/main/resources/icons/svg-dark").mkdirs();
 
-        new File("src/main/resources/icons/other-light").mkdirs();
-        new File("src/main/resources/icons/other-dark").mkdirs();
+        new File("icons/src/main/resources/icons/other-light").mkdirs();
+        new File("icons/src/main/resources/icons/other-dark").mkdirs();
     }
 
     private static void extractImages(final Path fileZip) throws IOException {
@@ -111,7 +111,7 @@ public enum ExtractIcons {;
         final var bucket = toIconBucket(type, data);
         final var lighting = toLightingSetting(entry);
         final var relativePath = bucket.toDir() + "-" + lighting + File.separator + name + "." + type.name();
-        return Paths.get("src/main/resources/icons/" + relativePath);
+        return Paths.get("icons/src/main/resources/icons/" + relativePath);
     }
 
     private static IconBucket toIconBucket(final ImageType type, final byte[] data) throws IOException {
