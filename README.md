@@ -6,7 +6,7 @@ The project imports this dependency:
     <dependency>
         <groupId>com.jetbrains.intellij.platform</groupId>
         <artifactId>icons</artifactId>
-        <version>213.6777.50</version>
+        <version>213.6777.52</version>
     </dependency>
 
 But it rearranges the icons into different resource directories.
