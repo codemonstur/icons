@@ -1,0 +1,11 @@
+include https://raw.githubusercontent.com/codemonstur/bobfiles/master/foss-lib-github-maven
+
+vendor: com.github.codemonstur
+name: icons
+version: 213.6777.52
+release: 19
+packaging: jar
+enablePreview: false
+dependencies:
+  - repository: com.github.codemonstur:simplexml:3.0.0
+    scope: test
