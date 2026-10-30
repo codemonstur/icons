@@ -41,6 +41,7 @@
         <maven.version>[3.6.3,)</maven.version>
 
         <version.library.simplexml>3.0.0</version.library.simplexml>
+        <version.library.junit>6.1.3</version.library.junit>
 
         <version.plugin.check-cves>1.2.0</version.plugin.check-cves>
         <version.plugin.enforcer>3.6.3</version.plugin.enforcer>
@@ -56,6 +57,13 @@
 </properties>
 
     <dependencies>
+
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>${version.library.junit}</version>
+            <scope>test</scope>
+        </dependency>
 
         <dependency>
             <groupId>com.github.codemonstur</groupId>
